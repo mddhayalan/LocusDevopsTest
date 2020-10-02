@@ -2,10 +2,14 @@ version: 2.1
 
 orbs:
   maven: circleci/maven@0.0.12
-
-workflows:
+jobs:
+  echobranchname:
+    -run:
+      command: echo $BRANCH_NAME
   maven_test:
+    - maven/test # checkout, build, test, and upload test results
+workflows:
+  echo_and_build:
     jobs:
-      -run:
-        name: "Echo Branch name"
-        command: echo $BRANCH_NAME
+      - echobranchname
+      - maven_test
